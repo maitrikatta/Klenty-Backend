@@ -19,7 +19,7 @@ const createTemplate = async (req, res) => {
     wishType: wishtype,
     createdBy: userId,
   });
-  res.status(201).json({ result });
+  res.status(201).json({ data: result });
 };
 const getTemplates = async (req, res) => {
   const {
@@ -55,7 +55,7 @@ const updateTemplate = async (req, res) => {
       template = await template.save();
     }
   }
-  res.status(200).json({ template: template });
+  res.status(200).json({ data: template });
 };
 
 const deleteTemplate = async (req, res) => {
