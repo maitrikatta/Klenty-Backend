@@ -2,7 +2,7 @@ const { BadRequestError } = require("../Errors");
 const moment = require("moment");
 const UpcomingEvents = require("../Models/upcoming-events");
 const WishTemplate = require("../Models/wish-template");
-
+const sendMail = require("../Libs/send-mail");
 const createEvent = async (req, res) => {
   const {
     user: { userId },
@@ -86,11 +86,23 @@ const sendEvent = async (req, res) => {
   } = req.body;
   const { eventId } = req.body;
   if (!eventId) throw new BadRequestError("Need event id, found none");
-  const result = await UpcomingEvents.findOne({
-    createdBy: userId,
-    _id: eventId,
-  });
-  res.send(result);
+  const eventResult = await UpcomingEvents.findOne(
+    {
+      createdBy: userId,
+      _id: eventId,
+    },
+    { eventTime: 1, recipientEmail: 1, templateId: 1, _id: 0 }
+  );
+  if (!eventResult) throw new BadRequestError("No such event found");
+  const templateResult = await WishTemplate.findOne(
+    {
+      _id: eventResult.templateId,
+      createdBy: userId,
+    },
+    { title: 1, detail: 1, wishType: 1, _id: 0 }
+  );
+  const mailResult = await sendMail(eventResult, templateResult);
+  res.send({ data: mailResult });
 };
 module.exports = {
   createEvent,
