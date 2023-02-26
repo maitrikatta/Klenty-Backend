@@ -9,14 +9,15 @@ const createTemplate = async (req, res) => {
   const {
     user: { userId },
   } = req.body;
-  const { title, detail, wishtype } = req.body;
-  if (!title || !detail) {
+  const { title, detail, wishType } = req.body;
+
+  if (!title || !detail || !wishType) {
     throw new PartialFieldsError("Received partial body");
   }
   const result = await WishTemplate.create({
     title: title,
     detail: detail,
-    wishType: wishtype,
+    wishType: wishType.toUpperCase(),
     createdBy: userId,
   });
   res.status(201).json({ data: result });
@@ -69,7 +70,12 @@ const deleteTemplate = async (req, res) => {
     createdBy: userId,
     _id: templateId,
   });
-  res.status(200).json({ data: count });
+  if (count.deletedCount === 1) {
+    count._id = templateId;
+    res.status(200).json(count);
+  } else {
+    res.status(200).json(count);
+  }
 };
 module.exports = {
   createTemplate,

@@ -3,11 +3,15 @@ const moment = require("moment");
 const UpcomingEvents = require("../Models/upcoming-events");
 const WishTemplate = require("../Models/wish-template");
 const sendMail = require("../Libs/send-mail");
+const joinEventsTemlate = require("../Models/Pipelines/join-events-temlate");
 const createEvent = async (req, res) => {
   const {
     user: { userId },
   } = req.body;
   const { eventTime, email, templateId } = req.body;
+
+  if (!moment(eventTime).isValid())
+    throw new BadRequestError("invalid event time");
 
   // check if the event time is not past
   // works fine without worrying utc/gmt
@@ -63,20 +67,32 @@ const eventsOfMonth = async (req, res) => {
   const {
     user: { userId },
   } = req.body;
-  let { dateRange } = req.body;
+
+  // dateRange is just ISOString needs to be parsed
+
+  let { dateRange: currMonth } = req.params;
+  if (currMonth === undefined || currMonth === null)
+    throw new BadRequestError("No Date Range Provided");
 
   // parse the date
-  dateRange = moment(dateRange);
-  //make new object for limit
-  const nextMonth = moment(dateRange);
+  // may be in invalid format
+  try {
+    currMonth = moment(currMonth);
+  } catch (err) {
+    throw new BadRequestError("Invalid date format, needs ISO 8601");
+  }
+
+  // make new date for limit
+
+  const nextMonth = moment(currMonth);
   // increment month
-  nextMonth.month(dateRange.month() + 1);
-  // set day to first
+  nextMonth.month(currMonth.month() + 1);
+  // set day to first for $lt comparison
   nextMonth.date(1);
 
-  const result = await UpcomingEvents.find({
-    eventTime: { $gte: dateRange, $lt: nextMonth },
-  });
+  const result = await UpcomingEvents.aggregate(
+    joinEventsTemlate(currMonth, nextMonth)
+  );
   res.send({ data: result });
 };
 

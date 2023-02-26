@@ -11,8 +11,8 @@ router
   .route("/upcoming")
   .post(createEvent)
   .delete(deleteEvent)
-  .patch(updateEvent)
-  .get(eventsOfMonth);
+  .patch(updateEvent);
+router.route("/upcoming/:dateRange").get(eventsOfMonth);
 
 router.route("/send").post(sendEvent);
 module.exports = router;

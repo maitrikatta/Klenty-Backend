@@ -17,24 +17,13 @@ const WishTemplate = new Schema(
     detail: {
       type: String,
       required: [true, "Please provide wish details"],
-      maxLength: 300,
+      maxLength: 500,
       minLength: 3,
     },
     wishType: {
       type: String,
       required: [true, "Please provide wish type"],
-      enum: {
-        values: [
-          "Birthday",
-          "Marriage Anniversary",
-          "Death Anniversary",
-          "Meeting",
-          "Success Greetings",
-          "Event",
-          "Other",
-        ],
-        message: `{VALUE} wish type is not supported`,
-      },
+      unique: true,
     },
   },
   { timestamps: true }
