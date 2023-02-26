@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.39aeeaf1.css",
+    "main.js": "/static/js/main.c3cff6cf.js",
+    "static/media/Euclid Circular A Regular.ttf": "/static/media/Euclid Circular A Regular.d54600880dc63db716f2.ttf",
+    "index.html": "/index.html",
+    "main.39aeeaf1.css.map": "/static/css/main.39aeeaf1.css.map",
+    "main.c3cff6cf.js.map": "/static/js/main.c3cff6cf.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.39aeeaf1.css",
+    "static/js/main.c3cff6cf.js"
+  ]
+}
