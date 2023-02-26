@@ -35,12 +35,12 @@ const deleteEvent = async (req, res) => {
   const {
     user: { userId },
   } = req.body;
-  const { eventId } = req.body;
+  const { eventId } = req.params;
   const result = await UpcomingEvents.deleteOne({
     _id: eventId,
     createdBy: userId,
   });
-  res.status(201).json({ data: result });
+  res.status(201).json(result);
 };
 const updateEvent = async (req, res) => {
   const {
@@ -118,7 +118,7 @@ const sendEvent = async (req, res) => {
     { title: 1, detail: 1, wishType: 1, _id: 0 }
   );
   const mailResult = await sendMail(eventResult, templateResult);
-  res.send({ data: mailResult });
+  res.send(mailResult);
 };
 module.exports = {
   createEvent,

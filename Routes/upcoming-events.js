@@ -10,9 +10,10 @@ const {
 router
   .route("/upcoming")
   .post(createEvent)
-  .delete(deleteEvent)
+
   .patch(updateEvent);
 router.route("/upcoming/:dateRange").get(eventsOfMonth);
+router.route("/upcoming/:eventId").delete(deleteEvent);
 
 router.route("/send").post(sendEvent);
 module.exports = router;

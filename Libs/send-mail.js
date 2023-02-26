@@ -11,14 +11,14 @@ async function sendMail(eventResult, templateResult) {
   });
 
   const body = `
-  <h3>${title}</h3>
+  <h4>${wishType}</h4>
   <p>${detail} </p>
   `;
 
   const mailOptions = {
     from: "yktherock99@gmail.com",
-    to: "ykakde3@gmail.com",
-    subject: wishType,
+    to: recipientEmail,
+    subject: title,
     html: body,
   };
 
