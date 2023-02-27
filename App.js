@@ -25,9 +25,10 @@ app.use("/api/v1/events", authenticate, eventsRouter);
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 async function start() {
-  const port = process.env.PORT || 5555;
+  // Postman API uses  5000
+  const port = process.env.PORT || 5000;
   try {
-    await connectDB(process.env.MONGO_URI);
+    await connectDB(process.env.MONGO_LOCAL);
     app.listen(port, () => {
       console.log(`Server Spinning on ${port}`);
     });
