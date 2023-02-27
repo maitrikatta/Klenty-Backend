@@ -1,8 +1,10 @@
-const eventTemplateJoin = (currMonth, nextMonth) => {
+const mongoose = require("mongoose");
+const eventTemplateJoin = (currMonth, nextMonth, userId) => {
   return [
     [
       {
         $match: {
+          createdBy: mongoose.Types.ObjectId(userId),
           eventTime: {
             $gte: new Date(currMonth),
             $lt: new Date(nextMonth),

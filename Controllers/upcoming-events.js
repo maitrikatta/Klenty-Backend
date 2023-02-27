@@ -67,7 +67,6 @@ const eventsOfMonth = async (req, res) => {
   const {
     user: { userId },
   } = req.body;
-
   // dateRange is just ISOString needs to be parsed
 
   let { dateRange: currMonth } = req.params;
@@ -91,7 +90,7 @@ const eventsOfMonth = async (req, res) => {
   nextMonth.date(1);
 
   const result = await UpcomingEvents.aggregate(
-    joinEventsTemlate(currMonth, nextMonth)
+    joinEventsTemlate(currMonth, nextMonth, userId)
   );
   res.send({ data: result });
 };
