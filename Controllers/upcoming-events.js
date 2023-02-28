@@ -67,16 +67,19 @@ const eventsOfMonth = async (req, res) => {
   const {
     user: { userId },
   } = req.body;
-  // dateRange is just ISOString needs to be parsed
+  // dateRange is just toISOString
 
   let { dateRange: currMonth } = req.params;
   if (currMonth === undefined || currMonth === null)
     throw new BadRequestError("No Date Range Provided");
 
-  // parse the date
+  // parse the date to local
   // may be in invalid format
   try {
     currMonth = moment(currMonth);
+    currMonth.date(1);
+    currMonth.hour(0);
+    currMonth.minute(0);
   } catch (err) {
     throw new BadRequestError("Invalid date format, needs ISO 8601");
   }
@@ -88,7 +91,6 @@ const eventsOfMonth = async (req, res) => {
   nextMonth.month(currMonth.month() + 1);
   // set day to first for $lt comparison
   nextMonth.date(1);
-
   const result = await UpcomingEvents.aggregate(
     joinEventsTemlate(currMonth, nextMonth, userId)
   );
