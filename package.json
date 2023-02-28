@@ -1,5 +1,5 @@
 {
-  "name": "Wisher Time Machine",
+  "name": "Klenty Event",
   "version": "1.0.0",
   "description": "",
   "main": "App.js",
@@ -19,9 +19,12 @@
     "moment": "^2.29.4",
     "mongoose": "^5.13.2",
     "multer": "^1.4.5-lts.1",
-    "nodemailer": "^6.9.1"
+    "nodemailer": "^6.9.1",
+    "firebase-admin": "^10.0.2",
+    "firebase-functions": "^3.18.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.9"
+    "nodemon": "^2.0.9",
+    "firebase-functions-test": "^0.2.0"
   }
 }

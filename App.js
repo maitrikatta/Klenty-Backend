@@ -37,15 +37,14 @@ app.get("*", function (req, res) {
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 async function start() {
-  // Postman API uses  5000
-  const port = process.env.PORT || 5000;
   try {
     await connectDB(process.env.MONGO_ATLAS);
     app.listen(port, () => {
       console.log(`Server Spinning on ${port}`);
     });
   } catch (error) {
-    console.log("Error while starting:", error);
+    console.log("Error while MongoDB:", error);
   }
 }
 start();
+exports.app = functions.https.onRequest(app);
